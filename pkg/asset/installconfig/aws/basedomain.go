@@ -36,7 +36,7 @@ func GetBaseDomain() (string, error) {
 		&route53.ListHostedZonesInput{},
 		func(resp *route53.ListHostedZonesOutput, lastPage bool) (shouldContinue bool) {
 			for _, zone := range resp.HostedZones {
-				if zone.Config != nil && !aws.BoolValue(zone.Config.PrivateZone) {
+				if zone.Config != nil && aws.BoolValue(zone.Config.PrivateZone) {
 					publicZoneMap[strings.TrimSuffix(*zone.Name, ".")] = exists
 				}
 			}
@@ -79,7 +79,7 @@ func GetPublicZone(name string) (*route53.HostedZone, error) {
 	var res *route53.HostedZone
 	f := func(resp *route53.ListHostedZonesOutput, lastPage bool) (shouldContinue bool) {
 		for idx, zone := range resp.HostedZones {
-			if zone.Config != nil && !aws.BoolValue(zone.Config.PrivateZone) && strings.TrimSuffix(aws.StringValue(zone.Name), ".") == strings.TrimSuffix(name, ".") {
+			if zone.Config != nil && aws.BoolValue(zone.Config.PrivateZone) && strings.TrimSuffix(aws.StringValue(zone.Name), ".") == strings.TrimSuffix(name, ".") {
 				res = resp.HostedZones[idx]
 				return false
 			}

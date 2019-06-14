@@ -19,8 +19,8 @@ resource "aws_lb" "api_internal" {
 resource "aws_lb" "api_external" {
   name                             = "${var.cluster_id}-ext"
   load_balancer_type               = "network"
-  subnets                          = local.public_subnet_ids
-  internal                         = false
+  subnets                          = local.private_subnet_ids
+  internal                         = true
   enable_cross_zone_load_balancing = true
   idle_timeout                     = 3600
 

@@ -1,5 +1,6 @@
-data "aws_route53_zone" "public" {
+data "aws_route53_zone" "private" {
   name = var.base_domain
+  private_zone = true
 }
 
 resource "aws_route53_zone" "int" {
@@ -21,7 +22,7 @@ resource "aws_route53_zone" "int" {
 }
 
 resource "aws_route53_record" "api_external" {
-  zone_id = data.aws_route53_zone.public.zone_id
+  zone_id = data.aws_route53_zone.private.zone_id
   name    = "api.${var.cluster_domain}"
   type    = "A"
 
